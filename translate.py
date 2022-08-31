@@ -93,6 +93,9 @@ def RegType(str_K):
    
 
 
+
+
+
 def readFile(name):
     # print('当前文件路径', os.getcwd())
     regStr = r"[^\x00-\xff]+"
@@ -142,15 +145,47 @@ def readFile(name):
 # Json 文件转化为 xls 文件 
 
 def xlsData():
-    with open(r'E:\学习\Python\基础代码\data.json', 'r',encoding="utf-8") as f:
-            row_data = json.load(f)
-            xlsEvent(row_data,type=True)
+    cn ={}
+    en ={}
+    data=[]
+    with open(r'E:\学习\Python\基础代码\json\cn.json', 'r',encoding="utf-8") as f:
+            # row_data = json.load(f)
+            # xlsEvent(row_data,type=True)
+            cn =  json.load(f)
+            f.close()
+    
+    with open(r'E:\学习\Python\基础代码\json\en.json', 'r',encoding="utf-8") as f:
+            # row_data = json.load(f)
+            # xlsEvent(row_data,type=True)
+            en =  json.load(f)
             f.close()
 
-def test():
-    path = r'E:\学习\Python\基础代码\testFiled'
-    dirs = os.listdir(path)
-    print(dirs)
+    for k, val in cn.items():
+        obj ={"keys":'',"cn":'','en':''}
+        obj['keys'] = k
+        obj['cn'] = cn[k]
+        if(en.get(k)):
+           obj['en'] = en[k]
+        else:
+            obj['en'] = ' '
+        data.append(obj)
+
+    xlsEvent_cn_en(data)
+
+
+
+def xlsEvent_cn_en(data):
+  
+    workbook = xlwt.Workbook(encoding='ascii')
+    worksheet = workbook.add_sheet("前端")
+    worksheet.write(0, 0, 'keys')
+    worksheet.write(0, 1, '中文')
+    worksheet.write(0, 2, '英文')
+    for i in range(len(data)):
+         worksheet.write(i+1, 0, data[i].get('keys'))
+         worksheet.write(i+1, 1, data[i].get('cn'))
+         worksheet.write(i+1, 2, data[i].get('en'))
+    workbook.save(r"E:\学习\Python\基础代码\img\客户端翻译.xls")
 xlsData()    
 # test()    
 # readFile('测试函数')
