@@ -64,10 +64,10 @@ class ExcelData():
         en={}
         for k in arr:
             cn[k['key']] = k['中文']
-            en[k['key']] = k['英语']
+            en[k['key']] = k['英文']
             # 写入数据
-        cn = json.dumps(cn,ensure_ascii=False,sort_keys=True)
-        en = json.dumps(en,ensure_ascii=False,sort_keys=True)        
+        cn = json.dumps(cn,ensure_ascii=False,sort_keys=False)
+        en = json.dumps(en,ensure_ascii=False,sort_keys=False)        
         with open(self.json_path_cn, 'w', encoding='utf-8') as f:
            f.write(cn)
            f.close()
@@ -77,7 +77,7 @@ class ExcelData():
         print('构建完成.....')           
         
 if __name__ == "__main__":
-    data_path = r"E:\学习\Python\基础代码\img\test.xls"
+    data_path = r"E:\学习\Python\基础代码\static\test.xls"
     sheetname = "test"
     get_data = ExcelData(data_path, sheetname)
     datas = get_data.readExcel()
